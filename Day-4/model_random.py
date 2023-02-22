@@ -1,4 +1,4 @@
-import struct
+
 import time
 import numpy as np
 import os
@@ -9,18 +9,26 @@ import os
 ===========================
 
 """
-
+BPF = 53  
 def random():
     """
     random ini berfungsi untuk menampilkan angka dengan sesuai pseucode 
     ini 
+    >>> random()
+    0.153196923667565
+    >>> random()
+    0.734023273922503
     """
-    seed=0
-    multiplier=1664525
-    increment=1013904223
-    modulus=pow(2,31)
-    seed=(multiplier*seed+increment)%modulus
-    return seed/modulus
+    t=int(time.time()*1000)
+    x=t%(2**32)
+    while True:
+
+        x=(1664525*x+12345)%(2**32)
+        return x/(2**32)
+
+
+
+
 
 def getrandbits(k):
     bytes_need=(k+7)
@@ -51,10 +59,15 @@ def randomrange(a,b,size):
     return np.array(result)
 
 
-def random_interval():
-    current_time=time.time()
-    seed=randbelow((current_time)-int(current_time))
-    return seed
+def random_uniform(size=1):
+    if size<=0:
+        raise ValueError("Can't put size value lower than 1")
+    
+    memo=[]
+    for _ in range(size): 
+        memo.append(0 + (1 - 0) * random())
+    return memo
+    
 
 ## Tahap pembagunan
 # def random_uniform(low,high,size=1):
