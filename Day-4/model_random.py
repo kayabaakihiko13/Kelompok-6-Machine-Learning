@@ -27,10 +27,14 @@ def random():
         return x/(2**32)
 
 
-
-
-
 def getrandbits(k):
+    """
+    konsep dari getrandbits ini menggunakan bits acak yang relative
+    dengan melewati dua waktu
+    refence:
+    https://en.wikipedia.org/wiki/Linear_congruential_generator
+
+    """
     bytes_need=(k+7)
     randbytes=os.urandom(bytes_need)
     randbit=int.from_bytes(randbytes,byteorder='big')
@@ -39,6 +43,9 @@ def getrandbits(k):
 
 # make important 
 def randbelow(n):
+    """
+    
+    """
     if n<=0:
         raise ValueError("the input cant be less from zero")
     k=n.bit_length()        
@@ -66,8 +73,7 @@ def random_uniform(size=1):
     memo=[]
     for _ in range(size): 
         memo.append(0 + (1 - 0) * random())
-    return memo
-    
+    return np.array(memo)
 
 ## Tahap pembagunan
 # def random_uniform(low,high,size=1):
