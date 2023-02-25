@@ -49,4 +49,33 @@ class Knn:
             rentang_indikasi=np.argsort(jarak)[:self.tetanga]
             rentang_y=self.Y[rentang_indikasi]
             memo.append(np.mean(rentang_y))
-        return memo
+        return np.array(memo)
+    
+import numpy as np
+
+def PCA(X, n_components):
+    # Calculate the mean of the data
+    mean = np.mean(X, axis=0)
+    
+    # Center the data
+    X_centered = X - mean
+    
+    # Calculate the covariance matrix
+    cov_matrix = np.cov(X_centered, rowvar=False)
+    
+    # Calculate the eigenvalues and eigenvectors of the covariance matrix
+    eigen_values, eigen_vectors = np.linalg.eig(cov_matrix)
+    
+    # Sort the eigenvalues and eigenvectors in descending order of eigenvalues
+    sorted_indices = np.argsort(eigen_values)[::-1]
+    sorted_eigenvalues = eigen_values[sorted_indices]
+    sorted_eigenvectors = eigen_vectors[:, sorted_indices]
+    
+    # Select the top n_components eigenvectors
+    eigenvectors_subset = sorted_eigenvectors[:, :n_components]
+    
+    # Project the data onto the eigenvectors to obtain the reduced representation
+    X_reduced = np.dot(X_centered, eigenvectors_subset)
+    
+    return X_reduced
+
